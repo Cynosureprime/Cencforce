@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -O3 -pthread -Wall
+CFLAGS = -O3 -pthread -Wall -std=gnu99
 
 all: encforce
 

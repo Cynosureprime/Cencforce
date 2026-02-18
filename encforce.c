@@ -771,9 +771,9 @@ static void validate_encodings(void) {
         encodings[i].available = 1;
     }
 
-    int avail = 0;
-    for (int i = 0; i < Num_encodings; i++)
-        if (encodings[i].available) avail++;
+    int avail = 0, ii;
+    for (ii = 0; ii < Num_encodings; ii++)
+        if (encodings[ii].available) avail++;
     fprintf(stderr, "encforce %s: %d/%d encodings available, %d threads\n",
         VERSION, avail, Num_encodings, Maxt);
 }
@@ -1079,7 +1079,8 @@ int main(int argc, char **argv) {
     FreeTail = &FreeHead;
     Workthread = 0;
 
-    for (int x = 0; x < Maxt; x++) {
+    int x;
+    for (x = 0; x < Maxt; x++) {
         *FreeTail = &Jobs[x];
         FreeTail = &(Jobs[x].next);
         Jobs[x].outbuf = malloc(OUTBUFSIZE);
@@ -1100,7 +1101,7 @@ int main(int argc, char **argv) {
     if (fi != stdin) fclose(fi);
 
     /* Cleanup */
-    for (int x = 0; x < Maxt; x++) {
+    for (x = 0; x < Maxt; x++) {
         free(Jobs[x].outbuf);
         free(Jobs[x].dedup_hashes);
         free(Jobs[x].scratch);
