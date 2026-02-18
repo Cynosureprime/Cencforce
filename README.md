@@ -43,7 +43,7 @@ notation (e.g., `$HEX[636166e9]` for the bytes `caf\xe9`).
 | | `--unique` | | on | Deduplicate output values per input |
 | | `--no-unique` | | | Disable deduplication |
 | | `--no-errors` | | off | Hide results that had decoding/encoding errors |
-| `-v` | `--verbose` | | off | Show detailed output |
+| `-v` | `--verbose` | | off | Show input headers, encoding names, strategies |
 | `-s` | `--suggest` | | off | Show mojibake suggestions |
 | `-h` | `--help` | | | Show help |
 | `-V` | `--version` | | | Show version |
@@ -62,7 +62,7 @@ notation (e.g., `$HEX[636166e9]` for the bytes `caf\xe9`).
 
 | Format | Description |
 |--------|-------------|
-| `lines` | One result per line. Non-UTF-8 output wrapped in `$HEX[...]`. |
+| `lines` | One result value per line (default). Use `-v` for decorated output with encoding names. Non-UTF-8 output wrapped in `$HEX[...]`. |
 | `json` | JSON objects per input line with `input_hex`, `results` array. |
 | `tsv` | Tab-separated: input, input\_hex, operation, encoding, target, strategy, output, output\_hex. |
 

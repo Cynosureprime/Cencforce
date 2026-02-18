@@ -302,22 +302,24 @@ static void emit_result(struct JOB *job,
 
     switch (OutFormat) {
     case FMT_LINES:
-        if (is_first_for_line && !is_json_array) {
-            emit_str(job, "[input: ");
-            emit_data(job, input, input_len);
-            emit_str(job, "]\n");
-        }
-        sprintf(tmp, "  %s %s", operation, enc_name);
-        emit_str(job, tmp);
-        if (target_enc) {
-            sprintf(tmp, " -> %s", target_enc);
+        if (DoVerbose) {
+            if (is_first_for_line && !is_json_array) {
+                emit_str(job, "[input: ");
+                emit_data(job, input, input_len);
+                emit_str(job, "]\n");
+            }
+            sprintf(tmp, "  %s %s", operation, enc_name);
             emit_str(job, tmp);
+            if (target_enc) {
+                sprintf(tmp, " -> %s", target_enc);
+                emit_str(job, tmp);
+            }
+            if (had_errors && strategy_name) {
+                sprintf(tmp, " (%s)", strategy_name);
+                emit_str(job, tmp);
+            }
+            emit_str(job, ": ");
         }
-        if (had_errors && strategy_name) {
-            sprintf(tmp, " (%s)", strategy_name);
-            emit_str(job, tmp);
-        }
-        emit_str(job, ": ");
         emit_data(job, output, output_len);
         output_append(job, "\n", 1);
         break;
@@ -909,7 +911,7 @@ static void usage(void) {
         "      --unique           Deduplicate output (default: on)\n"
         "      --no-unique        Disable deduplication\n"
         "      --no-errors        Hide results with errors\n"
-        "  -v, --verbose          Show detailed output\n"
+        "  -v, --verbose          Show input headers, encoding names, strategies\n"
         "  -s, --suggest          Show mojibake suggestions\n"
         "  -h, --help             Show help\n"
         "  -V, --version          Show version\n"
