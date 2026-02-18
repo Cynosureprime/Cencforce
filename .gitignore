@@ -1,0 +1,6 @@
+RCS/
+*.o
+encforce
+encforce_debug
+.index_cache/
+claude-*.txt
