@@ -43,6 +43,7 @@ notation (e.g., `$HEX[636166e9]` for the bytes `caf\xe9`).
 | | `--unique` | | on | Deduplicate output values per input |
 | | `--no-unique` | | | Disable deduplication |
 | | `--no-errors` | | off | Hide results that had decoding/encoding errors |
+| `-l` | `--list-encodings` | | | List all supported encodings and exit |
 | `-v` | `--verbose` | | off | Show input headers, encoding names, strategies |
 | `-s` | `--suggest` | | off | Show mojibake suggestions |
 | `-h` | `--help` | | | Show help |

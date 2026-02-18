@@ -911,10 +911,16 @@ static void usage(void) {
         "      --unique           Deduplicate output (default: on)\n"
         "      --no-unique        Disable deduplication\n"
         "      --no-errors        Hide results with errors\n"
+        "  -l, --list-encodings   List all supported encodings and exit\n"
         "  -v, --verbose          Show input headers, encoding names, strategies\n"
         "  -s, --suggest          Show mojibake suggestions\n"
         "  -h, --help             Show help\n"
         "  -V, --version          Show version\n"
+        "\n"
+        "Examples:\n"
+        "  echo \"cafÃ©\" | encforce -m decode -e utf-8,windows-1252\n"
+        "  echo \"café\" | encforce -m encode -e iso-8859-1 -e shift_jis\n"
+        "  encforce -m both -e ascii \"café\"\n"
     );
 }
 
@@ -934,6 +940,7 @@ int main(int argc, char **argv) {
         {"unique", no_argument, 0, 'u'},
         {"no-unique", no_argument, 0, 'U'},
         {"no-errors", no_argument, 0, 'E'},
+        {"list-encodings", no_argument, 0, 'l'},
         {"verbose", no_argument, 0, 'v'},
         {"suggest", no_argument, 0, 's'},
         {"help", no_argument, 0, 'h'},
@@ -946,7 +953,7 @@ int main(int argc, char **argv) {
     if (Maxt > 64) Maxt = 64;
 
     int opt;
-    while ((opt = getopt_long(argc, argv, "f:m:e:x:j:F:d:ruUEvshV", long_options, NULL)) != -1) {
+    while ((opt = getopt_long(argc, argv, "f:m:e:x:j:F:d:ruUElvshV", long_options, NULL)) != -1) {
         switch (opt) {
         case 'f':
             input_file = optarg;
@@ -1000,6 +1007,20 @@ int main(int argc, char **argv) {
         case 'E':
             DoNoErrors = 1;
             break;
+        case 'l': {
+            int i, k;
+            printf("%-30s  %s\n", "Encoding", "Aliases");
+            printf("%-30s  %s\n", "--------", "-------");
+            for (i = 0; encodings[i].enc.name != NULL; i++) {
+                printf("%-30s ", encodings[i].enc.name);
+                for (k = 0; encodings[i].aliases[k]; k++)
+                    printf(" %s%s", encodings[i].aliases[k],
+                        encodings[i].aliases[k+1] ? "," : "");
+                printf("\n");
+            }
+            printf("\n%d encodings\n", i);
+            exit(0);
+        }
         case 'v':
             DoVerbose = 1;
             break;
